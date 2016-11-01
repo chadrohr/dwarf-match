@@ -1,16 +1,82 @@
-;(function () {
+; (function () {
   angular.module('dwarfMatch')
     .component('gameComponent', {
       controller: GameController,
       templateUrl: 'app/components/game/game.html'
     })
 
-  function GameController ($timeout, GameService) {
+  function GameController($timeout, GameService) {
     var gc = this
 
-    // This is a freebie we are using the GameService to help keep our controller clean. The GameServie will be in charge of creating and shuffling the deck.
     gc.deck = GameService.getDeck()
 
+    let card1 = null;
+    let card2 = null;
+    gc.attempts = 0;
+    gc.pairs = 0;
+    let victory = false;
+
+    gc.selectCard = function (card) {
+      if (card1 && card2){
+        return
+      }
+      if (card.show != true) {
+        card.show = true;
+        if (card1 === null) {
+          card1 = card;
+          return;
+        } else if (card2 === null) {
+          card2 = card;
+          if (gc.isMatch(card1, card2)) {
+            card1 = null
+            card2 = null
+            gc.pairs++
+            gc.checkVictory();
+          }
+          else {
+            $timeout(function () {
+              gc.attempts++
+              gc.resetCards();
+            }, 1000);
+          }
+        }
+      }
+    }
+    gc.resetCards = function () {
+      card1.show = false;
+      card2.show = false;
+      card1 = null;
+      card2 = null;
+    }
+    gc.isMatch = function (card1, card2) {
+      if (card1.title == card2.title) {
+        return true
+      } else {
+        return false
+      }
+    }
+    gc.checkVictory = function () {
+      if (gc.pairs == gc.deck.length / 2) {
+        gc.victory = true;
+      } return;
+    }
+    gc.cheat = function () {
+      gc.victory = true;
+    }
+    gc.reset = function(){
+
+      gc.deck = GameService.getDeck()
+    let card1 = null;
+    let card2 = null;
+    gc.attempts = 0;
+    gc.pairs = 0;
+    let victory = false;
+    }
+  }
+} ())
+
+    // This is a freebie we are using the GameService to help keep our controller clean. The GameServie will be in charge of creating and shuffling the deck.
+    
     // Create two card variables. These will be responsible
     // for keeping track of our selections as we click cards.
 
@@ -37,5 +103,4 @@
 
     // Bonus Challenge: Write a function on gc that can reset the game and add a button that calls it
 
-  }
-}())
+

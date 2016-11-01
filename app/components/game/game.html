@@ -1,7 +1,9 @@
 <div class="container-fluid">
         <div class="row">
-            <h1>Found Pairs: {{$ctrl.pairs}}</h1>
+            <h1>Found Pairs: {{$ctrl.pairs}} Attempts: {{$ctrl.attempts}}</h1>
         </div>
+        <button class="btn-success" ng-click="$ctrl.cheat()">Cheat</button>
+        <button class="btn-success" ng-click="$ctrl.reset()">Reset</button>
         <div class="row text-center">
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="flip col-sm-3" ng-repeat="card in $ctrl.deck track by $index" ng-show="!$ctrl.victory">
@@ -18,7 +20,7 @@
                 </div>
 
                 <div class="alert alert-success" ng-show="$ctrl.victory">
-                    <h1>You are victorious, However it took you a ridiculous {{$ctrl.attempts}} attempts to win. Perhaps you should focus on your memory rather than drinking <a href="http://freedrinkpubs.co.uk/register" target="_blank">Claim your free Pint</a></h1>
+                    <h1>You are victorious, However it took you a ridiculous {{$ctrl.attempts}} attempts to win. Perhaps you should focus on your memory rather than drinking <a href="http://boisebrewing.com/" target="_blank">Claim your free Pint</a></h1>
                 </div>
 
             </div>
